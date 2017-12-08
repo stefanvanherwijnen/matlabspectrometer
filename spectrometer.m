@@ -53,8 +53,7 @@ integrationTime = str2double(get(handles.integrationTime, 'String'));
 scansToAverage = str2double(get(handles.scansToAverage, 'String'));
 period = integrationTime/1e6 * scansToAverage;
 
-global spectrometerObj dataFig
-dataFig = figure;
+global spectrometerObj
 try
     spectrometerObj = initializeSpectrometer(handles);
     global t;
@@ -102,9 +101,8 @@ for i = 1:numberOfScans
     data(:,:,i) = [wavelengths spectralData];
 end
 
-global dataFig
-clf(dataFig);
-figure(dataFig);
+figure;
+title(datestr(datetime));
 hold all
 for i = 1:numberOfScans
     plot(data(:,1,i), data(:,2,i));
@@ -359,3 +357,9 @@ spectralData = invoke(spectrometerObj, 'getSpectrum', spectrometerIndex, channel
 return
 
 
+% --- Executes during object deletion, before destroying properties.
+function figure1_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+close all;
