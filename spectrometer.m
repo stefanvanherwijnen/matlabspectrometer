@@ -48,6 +48,9 @@ end
 ylim(handles.spectrumPlot,[0 60000]);
 xlim(handles.spectrumPlot,[200 900]);
 grid;
+xlabel(handles.spectrumPlot, 'Wavelength [nm]')
+ylabel(handles.spectrumPlot, 'Counts')
+
 
 integrationTime = str2double(get(handles.integrationTime, 'String'));
 scansToAverage = str2double(get(handles.scansToAverage, 'String'));
@@ -115,7 +118,7 @@ try
     for i = 1:numberOfScans
         filePath = strcat(directory, name, num2str(i), ext);
         fid = fopen(filePath, 'w');
-        fprintf(fid, 'Integration time (usec): %d\n', integrationTime);
+        fprintf(fid, 'Integration Time (usec): %d\n', integrationTime);
         fclose(fid);
         dlmwrite(filePath, data(:,:,i), 'delimiter', '\t', 'precision', 3, '-append');
     end
