@@ -96,7 +96,7 @@ stop(t);
 % earlier obtained scans which are still left in the buffer.
 java.lang.Thread.sleep(integrationTime/1e3 * scansToAverage);
 
-numberOfScans = str2double(get(handles.numberOfScans, 'String'));
+numberOfScans = str2num(get(handles.numberOfScans, 'String'));
 data = [];
 
 for i = 1:numberOfScans
@@ -115,12 +115,12 @@ try
     [filename directory] = uiputfile({'*.txt','Text file';'*.*','All Files' },'Select output file')
     [filepath,name,ext] = fileparts(filename)
 
-    for i = 1:numberOfScans
-        filePath = strcat(directory, name, num2str(i), ext);
+    for fileNr = 1:numberOfScans
+        filePath = strcat(directory, name, num2str(fileNr), ext);
         fid = fopen(filePath, 'w');
         fprintf(fid, 'Integration Time (usec): %d\n', integrationTime);
         fclose(fid);
-        dlmwrite(filePath, data(:,:,i), 'delimiter', '\t', 'precision', 3, '-append');
+        dlmwrite(filePath, data(:,:,fileNr), 'delimiter', '\t', 'newline', 'pc', 'precision', 3, '-append');
     end
 catch Exception
     msgbox(Exception.message);

@@ -35,9 +35,9 @@ darkSpect = importdata(strcat(darkSpectrumDirectory, darkSpectrumFile));
 Dp = darkSpect.data;
 
 % Find the integration time
-IndexC = strfind(spect.textdata, 'Integration Time');
+IndexC = strfind(lower(spect.textdata), 'integration time');
 Index = find(not(cellfun('isempty', IndexC)));
-T = textscan(spect.textdata{9}, 'Integration Time (usec): %f'); % usec
+T = textscan(lower(spect.textdata{Index}), 'integration time (usec): %f'); % usec
 T = T{1}/1e6;   % [s]
 
 dLp = Sp(2,1) - Sp(1,1);    % Wavelength spread [nm]
