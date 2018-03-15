@@ -90,6 +90,8 @@ integrationTime = str2double(get(handles.integrationTime, 'String'));
 scansToAverage = str2double(get(handles.scansToAverage, 'String'));
 
 stop(t);
+close(figure(1));
+
 
 % Delay in order to 'flush' the buffer of the spectrometer
 % The measurement starts after the button is pressed, instead of using
@@ -114,13 +116,12 @@ end
 try
     [filename directory] = uiputfile({'*.txt','Text file';'*.*','All Files' },'Select output file')
     [filepath,name,ext] = fileparts(filename)
-
     for fileNr = 1:numberOfScans
         filePath = strcat(directory, name, num2str(fileNr), ext);
         fid = fopen(filePath, 'w');
         fprintf(fid, 'Integration Time (usec): %d\n', integrationTime);
         fclose(fid);
-        dlmwrite(filePath, data(:,:,fileNr), 'delimiter', '\t', 'newline', 'pc', 'precision', 3, '-append');
+        dlmwrite(filePath, data(:,:,fileNr), 'delimiter', '\t', 'newline', 'pc', '-append');
     end
 catch Exception
     msgbox(Exception.message);
